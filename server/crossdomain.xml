@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<!DOCTYPE cross-domain-policy SYSTEM "http://www.adobe.com/xml/dtds/cross-domain-policy.dtd">
+<cross-domain-policy>
+<allow-access-from domain="127.0.0.1" to-ports="5000,8080" />
+<allow-access-from domain="localhost" to-ports="5000,8080" />
+</cross-domain-policy>
