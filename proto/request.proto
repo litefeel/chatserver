@@ -1,0 +1,99 @@
+package com.litefeel.chatServer.requests;
+//option java_package = "com.litefeel.chatServer.requests";
+//option optimize_for = SPEED;
+
+enum HeaderType {
+SYS = 1; 	// system
+EXT = 2; 	// extension
+}
+enum ClinetActionType {
+LOGIN = 1;
+LOGOUT = 2;
+ZONE_MSG = 3;
+PUB_MSG = 4;		// public message
+PRI_MSG = 5;		// private message
+GET_ROOM_LIST = 6;
+JOIN_ROOM = 7;
+LEAVE_ROOM = 8;
+UPDATE_POS = 9; 	// update user postion {x,y,vx,vy}
+UPDATE_USER_VAR = 10;
+HEART_BEAT = 11;
+}
+
+enum UserVarOpType {
+NONE = 0;
+UPDATE = 1;
+DELETE = 2;
+}
+
+message UserVar {
+required string key = 1;
+optional int32 op = 2; 		// 1：添加 2：删除
+optional bytes value = 3; 	// 设置的类型一定在前后端已经规定好了，这里就没有类型了
+}
+
+message LoginRequest {
+required int32 head = 1 [default = 1];
+required int32 type = 2 [default = 1];
+required string userId = 3;
+required string pw = 4;
+}
+
+message LogoutRequest {
+required int32 head = 1 [default = 1];
+required int32 type = 2 [default = 2];
+}
+message ZoneMessageRequest {
+required int32 head = 1 [default = 1];
+required int32 type = 2 [default = 3];
+required string msg = 3;
+}
+message PublicMessageRequest {
+required int32 head = 1 [default = 1];
+required int32 type = 2 [default = 4];
+required int32 roomId = 3;
+required string msg = 4;
+}
+message PrivateMessageRequest {
+required int32 head = 1 [default = 1];
+required int32 type = 2 [default = 5];
+required string toId = 3;
+required string msg = 4;
+}
+
+message GetRoomListRequest {
+required int32 head = 1 [default = 1];
+required int32 type = 2 [default = 6];
+}
+
+message JoinRoomRequest {
+required int32 head = 1 [default = 1];
+required int32 type = 2 [default = 7];
+required int32 roomId = 3;
+}
+
+message LeaveRoomRequest {
+required int32 head = 1 [default = 1];
+required int32 type = 2 [default = 8];
+required int32 roomId = 3;
+}
+
+message UpdatePositionRequest {
+required int32 head = 1 [default = 1];
+required int32 type = 2 [default = 9];
+required int32 roomId = 3;
+repeated float posList = 4;
+}
+
+message UpdateUserVarRequest {
+required int32 head = 1 [default = 1];
+required int32 type = 2 [default = 10];
+repeated UserVar varList = 3;
+}
+
+message HeartbeatRequest {
+required int32 head = 1 [default = 1];
+required int32 type = 2 [default = 11];
+}
+
+

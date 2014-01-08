@@ -1,0 +1,121 @@
+import "request.proto";
+
+package com.litefeel.chatServer.responders;
+//option java_package = "com.litefeel.chatServer.responders";
+//option optimize_for = CODE_SIZE;
+
+
+
+enum ServerActionType {
+LOGIN_OK = 1;       // login ok
+LOGIN_KO = 2;       // login ko
+ZONE_MSG = 3;       // public message
+PUB_MSG = 4;        // public message
+PRI_MSG = 5;        // private message
+ROOM_LIST = 6;      // room list arrival
+USER_JOIN = 7;      // one user jion this room
+JOIN_ROOM = 8;      // join this room OK
+USER_LEAVE = 9;     // user leave this room
+LEAVE_ROOM = 10;    // leave this room
+UPDATE_POS = 11;    // an user update position {x,y,vx,vy}
+UPDATE_USER_VAR = 12;
+HEART_BEAT = 13;
+}
+
+message SimpleResponder {
+optional int32 head = 1;
+optional int32 type = 2;
+}
+
+message UserVo {
+required string uid = 1;
+required string name = 2;
+repeated float posList = 3;
+repeated com.litefeel.chatServer.requests.UserVar varList = 4;
+}
+
+message LoginOKResponder {
+optional int32 head = 1 [default = 1];
+optional int32 type = 2 [default = 1];
+required string id = 3;
+required string name = 4;
+repeated com.litefeel.chatServer.requests.UserVar varList = 5;
+}
+
+message LoginKOResponder {
+optional int32 head = 1 [default = 1];
+optional int32 type = 2 [default = 2];
+required string error = 3;
+}
+message ZoneMessageResponder {
+optional int32 head = 1 [default = 1];
+optional int32 type = 2 [default = 3];
+required string userId = 3;
+required string userName = 4;
+required string msg = 5;
+}
+message PublicMessageResponder {
+optional int32 head = 1 [default = 1];
+optional int32 type = 2 [default = 4];
+required int32 roomId = 3;
+required string userId = 4;
+required string msg = 5;
+}
+message PrivateMessageResponder {
+optional int32 head = 1 [default = 1];
+optional int32 type = 2 [default = 5];
+required string userId = 3;
+required string userName = 4;
+required string msg = 5;
+}
+
+message RoomListResponder {
+optional int32 head = 1 [default = 1];
+optional int32 type = 2 [default = 6];
+repeated int32 idList = 3;
+repeated string nameList = 4;
+}
+message UserJoinResponder {
+optional int32 head = 1 [default = 1];
+optional int32 type = 2 [default = 7];
+required int32 roomId = 3;
+required UserVo user = 4;
+}
+message JoinRoomResponder {
+optional int32 head = 1 [default = 1];
+optional int32 type = 2 [default = 8];
+required int32 roomId = 3;
+repeated UserVo userList = 4;
+}
+message UserLeaveResponder {
+optional int32 head = 1 [default = 1];
+optional int32 type = 2 [default = 9];
+required int32 roomId = 3;
+required string userId = 4;
+}
+message LeaveRoomResponder {
+optional int32 head = 1 [default = 1];
+optional int32 type = 2 [default = 10];
+required int32 roomId = 3;
+}
+
+message UpdatePosResponder {
+optional int32 head = 1 [default = 1];
+optional int32 type = 2 [default = 11];
+required int32 roomId = 3;
+required string userId = 4;
+repeated float posList = 5;
+}
+
+message UpdateUserVarResponder {
+optional int32 head = 1 [default = 1];
+optional int32 type = 2 [default = 12];
+required int32 roomId = 3;
+required string userId = 4;
+repeated com.litefeel.chatServer.requests.UserVar varList = 5;
+}
+
+message HeartbeatResponder {
+optional int32 head = 1 [default = 1];
+optional int32 type = 2 [default = 13];
+}
